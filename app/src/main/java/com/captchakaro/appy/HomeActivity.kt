@@ -132,7 +132,11 @@ class HomeActivity : AppCompatActivity() {
                     } else if (alldata[1] == "1") {
                         showMaintaincePopup()
                     }
-
+                    if (TinyDB.getString(this, "balance", "0").toString().toInt() >= TinyDB.getString(this,"balance_show_limit","0")!!.toInt()) {
+                        binding.llwalet.visibility = View.VISIBLE
+                    } else {
+                        binding.llwalet.visibility = View.GONE
+                    }
                     Handler(Looper.getMainLooper()).postDelayed({
                         Utils.dismissLoadingPopUp()
                     }, 1500)

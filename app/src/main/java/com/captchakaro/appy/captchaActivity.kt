@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -78,7 +79,11 @@ class captchaActivity : AppCompatActivity() {
 
         // Initialize the first captcha
         generateCaptureCode()
-
+        if (TinyDB.getString(this, "balance", "0").toString().toInt() >= TinyDB.getString(this,"balance_show_limit","0")!!.toInt()) {
+            binding.llwalet.visibility = View.VISIBLE
+        } else {
+            binding.llwalet.visibility = View.GONE
+        }
         // Navigate to Wallet
         binding.llwalet.setOnClickListener {
             startActivity(Intent(this, WithdrowActivity::class.java))

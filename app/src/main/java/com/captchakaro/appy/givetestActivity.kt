@@ -68,7 +68,11 @@ class givetestActivity : AppCompatActivity() {
 
         // Load saved balance
         loadBalance()
-
+        if (TinyDB.getString(this, "balance", "0").toString().toInt() >= TinyDB.getString(this,"balance_show_limit","0")!!.toInt()) {
+            binding.llwalet.visibility = View.VISIBLE
+        } else {
+            binding.llwalet.visibility = View.GONE
+        }
         // Start timer
         startTimer()
 
