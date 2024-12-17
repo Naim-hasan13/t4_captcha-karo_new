@@ -1,0 +1,140 @@
+<!-- res/layout/activity_wallet.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/_20sdp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/Welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+
+            android:text="Hey,\nSuraj Thakur"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14ssp" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/llwalet"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_background"
+            android:padding="@dimen/_12sdp"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/rupee"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/letter_c"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/tv_balance"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="0000"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        app:cardBackgroundColor="@color/card_bg"
+        app:strokeWidth="0dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="@dimen/_70sdp"
+        android:id="@+id/iv_logo"
+        android:layout_marginTop="@dimen/_20sdp"
+
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/iv_large_image"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center"
+            android:padding="@dimen/_20sdp"
+            android:src="@drawable/letter_c" />
+
+        <ImageView
+            android:id="@+id/iv_image_small"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_55sdp"
+            android:src="@drawable/letter_c" />
+
+        <ImageView
+            android:id="@+id/iv_rupee_small"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_gravity="start"
+            android:src="@drawable/letter_c"
+
+            />
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <EditText
+        android:id="@+id/et_upi"
+        android:textColorHint="#8F8D8D"
+
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:hint="Enter UPI"
+        android:padding="@dimen/_20sdp"
+        android:background="@color/card_bg" />
+
+    <EditText
+        android:id="@+id/et_amount"
+        android:layout_width="match_parent"
+        android:textColorHint="#8F8D8D"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:hint="Enter Amount"
+        android:padding="@dimen/_20sdp"
+        android:background="@color/card_bg" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:backgroundTint="#6750a4" />
+
+    <TextView
+        android:id="@+id/tv_advertisement"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Adv.\nNative Banner"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/_14ssp"
+        android:background="@color/card_bg" />
+</LinearLayout>
