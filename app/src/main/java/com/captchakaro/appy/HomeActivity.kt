@@ -57,8 +57,8 @@ class HomeActivity : AppCompatActivity() {
 
         // Set the welcome message
         binding.Welcome.text = "Hey,\n$userName!"
-        val currentBalance = BalanceManager.getBalance(this)
-        binding.tvBalance.text = currentBalance.toString()
+
+        binding.tvBalance.text =TinyDB.getString(this,"balance","0")
 
         binding.llwalet.setOnClickListener {
             startActivity(Intent(this, WithdrowActivity::class.java))
@@ -67,7 +67,7 @@ class HomeActivity : AppCompatActivity() {
         // Navigate to Give Test Activity on click
         binding.llGiveTest.setOnClickListener {
             startActivity(Intent(this, givetestActivity::class.java))
-            markGiveTestCompleted() // Mark that the user has completed the test
+            // Mark that the user has completed the test
         }
 
         // Navigate to Start Typing Activity on click (condition: Give Test completed today)
@@ -135,7 +135,7 @@ class HomeActivity : AppCompatActivity() {
 
                     Handler(Looper.getMainLooper()).postDelayed({
                         Utils.dismissLoadingPopUp()
-                    }, 2000)
+                    }, 1500)
 
                 } else {
                     Toast.makeText(this, res, Toast.LENGTH_LONG).show()
@@ -274,12 +274,7 @@ class HomeActivity : AppCompatActivity() {
         adLoader.loadAd(AdManagerAdRequest.Builder().build())
     }
     // Mark the Give Test as completed for the current day
-    private fun markGiveTestCompleted() {
-        val editor = sharedPreferences.edit()
-        val currentDate = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
-        editor.putInt("last_test_completed_day", currentDate) // Save the current day of the year
-        editor.apply()
-    }
+
 
     // Check if the Give Test has been completed today
     private fun isGiveTestCompletedToday(): Boolean {

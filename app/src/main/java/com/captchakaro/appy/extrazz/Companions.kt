@@ -35,7 +35,8 @@ object Utils {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context.startActivity(intent)
     }
-
+    val Int.makePositive: Int
+        get() = if (this < 0) -this else this
     fun hideKeyboard(context: Context, editText: EditText) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editText.windowToken, 0)

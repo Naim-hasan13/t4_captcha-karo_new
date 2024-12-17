@@ -129,7 +129,7 @@ app:cardBackgroundColor="#F3F3F3"
             android:id="@+id/tv_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50/50"
+            android:text="0/0"
             android:textSize="@dimen/_17ssp"
             android:textColor="@color/black"
 
@@ -203,7 +203,7 @@ app:cardBackgroundColor="#F3F3F3"
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp">
+                android:layout_marginTop="@dimen/_10sdp">
 
             <com.google.android.ads.nativetemplates.TemplateView
                 android:id="@+id/my_template"

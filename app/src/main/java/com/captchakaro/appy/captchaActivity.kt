@@ -16,10 +16,12 @@ import androidx.core.content.ContextCompat
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.captchakaro.appy.Utils.makePositive
 import com.captchakaro.appy.databinding.ActivityCaptchaBinding
 import com.captchakaro.appy.extrazz.AdmobX
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.admanager.AdManagerAdRequest
 import com.google.android.gms.ads.admanager.AdManagerInterstitialAd
 import com.google.android.gms.ads.admanager.AdManagerInterstitialAdLoadCallback
@@ -30,7 +32,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.text.SimpleDateFormat
 import java.util.Base64
+import java.util.Date
 
 class captchaActivity : AppCompatActivity() {
 
@@ -45,13 +49,18 @@ class captchaActivity : AppCompatActivity() {
     external fun Hatbc(): String
     companion object {
         const val TOTAL_LIMIT_KEY = "TOTAL_LIMIT"
-        const val EARNINGS_KEY = "TODAY_EARNINGS"
+        val EARNINGS_KEY: String = "TODAY_EARNINGS" + SimpleDateFormat("yyyyMMdd").format(
+            Date()
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCaptchaBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        MobileAds.initialize(this@captchaActivity) {
+
+        }
         loadInterstitial()
         loadNativeAd()
         sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
@@ -72,7 +81,7 @@ class captchaActivity : AppCompatActivity() {
 
         // Navigate to Wallet
         binding.llwalet.setOnClickListener {
-            startActivity(Intent(this, WalletActivity::class.java))
+            startActivity(Intent(this, WithdrowActivity::class.java))
         }
 
         // Submit button logic
@@ -96,27 +105,13 @@ class captchaActivity : AppCompatActivity() {
 
     private fun handleCorrectInput(totalLimit: Int, earnings: Int) {
         // Update values
-        val newLimit = totalLimit + 1
-        val newEarnings = earnings + 1
 
-        // Save updated values to SharedPreferences
-        with(sharedPreferences.edit()) {
-            putInt(TOTAL_LIMIT_KEY, newLimit)
-            putInt(EARNINGS_KEY, newEarnings)
-            apply()
-        }
-
-        // Add points to wallet using BalanceManager
-        BalanceManager.addPoints(this, 1)
-
-        // Update UI with new values
-        updateUI()
 
         // Show success screen temporarily
 
         binding.mainWork.visibility = android.view.View.GONE
         binding.llRight.visibility = android.view.View.VISIBLE
-        var isAdsShowable = TinyDB.getString(this, "play_limit", "0").toString()
+        val isAdsShowable = TinyDB.getString(this, "play_limit", "0").toString()
             .toInt() % TinyDB.getString(this, "show_ads_after_each", "0").toString()
             .toInt() == 0
         binding.ok.setOnClickListener {
@@ -130,18 +125,10 @@ class captchaActivity : AppCompatActivity() {
                                 loadInterstitial()
 
                                 // Perform main work after ad dismissal
-                                performMainWork()
+
                                 addPoint()
                             }
 
-                            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-                                // Reset the ad object and proceed with work
-                                mAdManagerInterstitialAd = null
-                                loadInterstitial()
-
-                                performMainWork()
-                                addPoint()
-                            }
                         }
 
                     // Show the ad
@@ -155,7 +142,7 @@ class captchaActivity : AppCompatActivity() {
                 }
             } else {
                 // Ads are not showable; proceed with work
-                performMainWork()
+
                 addPoint()
             }
         }
@@ -218,12 +205,28 @@ class captchaActivity : AppCompatActivity() {
                         Utils.dismissLoadingPopUp()
                         val alldata = res.trim().split(",")
                         TinyDB.saveString(this, "play_limit", alldata[2])
+                        val oldBalance=TinyDB.getString(this,"balance","0").toString().toInt()
+                        val diff=(oldBalance-alldata[1].toInt()).makePositive
+
+                        val newEarnings = sharedPreferences.getInt(EARNINGS_KEY, 0) + diff
+
+                        // Save updated values to SharedPreferences
+                        with(sharedPreferences.edit()) {
+                            putInt(EARNINGS_KEY, newEarnings)
+                            apply()
+                        }
+
+                        // Add points to wallet using BalanceManager
+                        BalanceManager.addPoints(this, diff)
+
+                        // Update UI with new values
+                        updateUI()
                         TinyDB.saveString(this, "balance", alldata[1])
                         isApiCallable = true
                         Handler(Looper.getMainLooper()).postDelayed({
                             Utils.dismissLoadingPopUp()
                         }, 1000)
-
+                        performMainWork()
                     } else {
                         Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
                     }

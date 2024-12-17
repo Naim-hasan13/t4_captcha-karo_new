@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+
         // Inflate the view and setup UI
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

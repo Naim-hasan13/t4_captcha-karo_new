@@ -33,3 +33,9 @@ Java_com_captchakaro_appy_givetestActivity_Hatbc(JNIEnv *env, jobject thiz) {
     return (*env)->NewStringUTF(env, "mgfdasgjourebbkjhrefhkvfsdgjjjpn");
 
 }
+
+JNIEXPORT jstring JNICALL
+Java_com_captchakaro_appy_WalletActivity_Hatbc(JNIEnv *env, jobject thiz) {
+    return (*env)->NewStringUTF(env, "mgfdasgjourebbkjhrefhkvfsdgjjjpn");
+
+}
