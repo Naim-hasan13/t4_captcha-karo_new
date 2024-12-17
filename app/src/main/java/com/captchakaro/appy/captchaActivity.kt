@@ -46,7 +46,6 @@ class captchaActivity : AppCompatActivity() {
     companion object {
         const val TOTAL_LIMIT_KEY = "TOTAL_LIMIT"
         const val EARNINGS_KEY = "TODAY_EARNINGS"
-        const val MAX_LIMIT = 50
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +65,7 @@ class captchaActivity : AppCompatActivity() {
         val totalLimit = sharedPreferences.getInt(TOTAL_LIMIT_KEY, 0)
         val earnings = sharedPreferences.getInt(EARNINGS_KEY, 0)
 
-        updateUI(totalLimit, earnings)
+        updateUI()
 
         // Initialize the first captcha
         generateCaptureCode()
@@ -81,7 +80,7 @@ class captchaActivity : AppCompatActivity() {
             val input = binding.etInput.text.toString()
             val captureCode = binding.tvCaptureCode.text.toString()
 
-            if (totalLimit >= MAX_LIMIT) {
+            if (TinyDB.getString(this,"play_limit","0").toString().toInt() == 0) {
                 // User reached the max limit, show a message and prevent further actions
                 showSnackbar("Daily limit reached. Come back tomorrow!")
                 return@setOnClickListener
@@ -111,7 +110,7 @@ class captchaActivity : AppCompatActivity() {
         BalanceManager.addPoints(this, 1)
 
         // Update UI with new values
-        updateUI(newLimit, newEarnings)
+        updateUI()
 
         // Show success screen temporarily
 
@@ -223,12 +222,10 @@ class captchaActivity : AppCompatActivity() {
                         isApiCallable = true
                         Handler(Looper.getMainLooper()).postDelayed({
                             Utils.dismissLoadingPopUp()
-                            finish()
                         }, 1000)
 
                     } else {
                         Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
-                        finish()
                     }
 
                 }, { error ->
@@ -280,15 +277,17 @@ class captchaActivity : AppCompatActivity() {
 
 
 
-    private fun updateUI(totalLimit: Int, earnings: Int) {
+    private fun updateUI() {
+        val totalLimit = TinyDB.getString(this,"play_limit","0")
+        val MAX_LIMIT = TinyDB.getString(this,"original_play_limit","0")
+        val earnings = sharedPreferences.getInt(EARNINGS_KEY, 0)
         binding.tvTotalLimit.text = "Total Limit Left\n${totalLimit}/$MAX_LIMIT"
         binding.tvEarnings.text = "Today Earnings\n${BalanceManager.getDailyEarnings(this)}"
-        binding.tvBalance.text = BalanceManager.getBalance(this).toString()
+        binding.tvBalance.text = TinyDB.getString(this,"balance","0")
     }
 
     private fun displayBalance() {
-        val balance = BalanceManager.getBalance(this)
-        binding.tvBalance.text = balance.toString()
+        binding.tvBalance.text = TinyDB.getString(this,"balance","0")
     }
 
     private fun showSnackbar(message: String) {

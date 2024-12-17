@@ -119,11 +119,14 @@ class HomeActivity : AppCompatActivity() {
                     TinyDB.saveString(this, "balance_show_limit", alldata[14])
                     TinyDB.saveString(this, "balance_withdrawal_limit", alldata[15])
                     TinyDB.saveString(this, "adx_banner", alldata[16])
+                    TinyDB.saveString(this, "original_play_limit", alldata[17])
+
 
 
                     updateAdMobAppId(alldata[11])
                     //setBalanceText()
                     binding.tvBalance.text = TinyDB.getString(this, "balance", "")
+                    binding.tvLimit.text ="${TinyDB.getString(this, "play_limit", "")}/${TinyDB.getString(this, "original_play_limit", "")}"
                     if (alldata[2].toInt() > Companions.APP_VERSION) {
                         showUpdatePopup()
                     } else if (alldata[1] == "1") {
