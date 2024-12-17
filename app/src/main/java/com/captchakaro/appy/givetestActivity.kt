@@ -45,7 +45,7 @@ class givetestActivity : AppCompatActivity() {
     var isApiCallable = true
 
     external fun Hatbc(): String
-    private val PREFS_NAME = "BalancePrefs"
+    private val PREFS_NAME = "UserPrefs"
     private val BALANCE_KEY = "balanceKey"
 
     override fun onCreate(savedInstanceState: Bundle?) {

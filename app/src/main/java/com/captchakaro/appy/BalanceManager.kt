@@ -3,7 +3,7 @@ package com.captchakaro.appy
 import android.content.Context
 
 object BalanceManager {
-    private const val PREFS_NAME = "BalancePrefs"
+    private const val PREFS_NAME = "UserPrefs"
     private const val BALANCE_KEY = "balanceKey"
     private const val DAILY_EARNINGS_KEY = "dailyEarningsKey"
     private const val LAST_UPDATED_DATE_KEY = "lastUpdatedDateKey"
