@@ -161,8 +161,7 @@ class givetestActivity : AppCompatActivity() {
             binding.tvBalance.text = TinyDB.getString(this, "balance", "0")
 
 
-            // Save the updated balance to SharedPreferences
-            saveBalance(totalEntries)
+
 
             // Show success notification
             showNotification(true)
@@ -204,17 +203,7 @@ class givetestActivity : AppCompatActivity() {
         snackbar.show()
     }
 
-    private fun saveBalance(balance: Int) {
-        // Check if a balance has already been saved
-        val currentBalance = sharedPreferences.getInt(BALANCE_KEY, -1)
 
-        // Only save the balance if it's not already set (default value of -1 means it's not saved yet)
-        if (currentBalance == -1) {
-            val editor = sharedPreferences.edit()
-            editor.putInt(BALANCE_KEY, balance)
-            editor.apply()
-        }
-    }
 
     private fun loadBalance() {
         // Load the saved balance from SharedPreferences
